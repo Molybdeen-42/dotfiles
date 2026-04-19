@@ -1,0 +1,9 @@
+import QtQuick
+
+// The time in hh:mm
+Text {
+    font.family: Theme.fontFamily
+    font.pixelSize: Theme.fontSizeSmall
+    color: Theme.colorTextPrimary
+    text: Time.time
+}

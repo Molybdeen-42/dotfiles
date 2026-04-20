@@ -17,6 +17,7 @@ Scope {
             readonly property int cornerRadius: 10
             readonly property int borderThickness: 1
             readonly property int shadowThickness: 4
+            readonly property int cornerShadowModifier: 13
             readonly property color shadowColor: Theme.colorBorderPrimary
             readonly property color shadowEdge: "#00000000"
 
@@ -228,8 +229,8 @@ Scope {
                     left: true
                 }
 
-                implicitHeight: cornerRadius + shadowThickness
-                implicitWidth: cornerRadius + shadowThickness
+                implicitHeight: cornerRadius + cornerShadowModifier
+                implicitWidth: cornerRadius + cornerShadowModifier
                 color: "transparent"
                 exclusiveZone: 0
 
@@ -240,28 +241,31 @@ Scope {
                     ShapePath {
                         strokeWidth: 0
                         fillGradient: RadialGradient {
-                            centerX: cornerRadius
-                            centerY: cornerRadius
-                            centerRadius: cornerRadius + shadowThickness
-                            
-                            focalX: cornerRadius
-                            focalY: cornerRadius
-                            focalRadius: cornerRadius
+                            centerX: cornerRadius + cornerShadowModifier
+                            centerY: cornerRadius + cornerShadowModifier
+                            centerRadius: cornerRadius + cornerShadowModifier
+
+                            // Testing data
+                            // GradientStop { position: 0.0; color: "black" }
+                            // GradientStop { position: 0.2; color: "magenta" }
+                            // GradientStop { position: 0.4; color: "yellow" }
+                            // GradientStop { position: 0.6; color: "blue" }
+                            // GradientStop { position: 0.8; color: "green" }
+                            // GradientStop { position: 1.0; color: "red" }
 
                             GradientStop { position: 0.0; color: shadowColor }
-                            GradientStop { position: 1.0; color: shadowEdge }
+                            GradientStop {
+                                position: cornerRadius / (cornerRadius + cornerShadowModifier)
+                                color: shadowColor
+                            }
+                            GradientStop { position: 1.0; color: "#00000000" }
                         }
 
                         startX: cornerRadius; startY: 0
-                        PathLine { x: cornerRadius + shadowThickness; y: 0 }
-                        PathArc {
-                            x: 0
-                            y: cornerRadius + shadowThickness
-                            radiusX: cornerRadius + shadowThickness
-                            radiusY: cornerRadius + shadowThickness
-                            direction: PathArc.Counterclockwise
-                        }
-                        PathLine { x: 0; y: cornerRadius }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: 0 }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius + cornerShadowModifier}
+                        PathLine { x: 0; y: cornerRadius + cornerShadowModifier}
+                        PathLine { x: 0; y: cornerRadius}
                         PathArc {
                             x: cornerRadius
                             y: 0
@@ -299,28 +303,68 @@ Scope {
                     left: true
                 }
 
-                implicitHeight: cornerRadius
-                implicitWidth: cornerRadius
+                implicitHeight: cornerRadius + cornerShadowModifier
+                implicitWidth: cornerRadius + cornerShadowModifier
                 color: "transparent"
 
                 Shape {
                     anchors.fill: parent
 
-                    // Fills corner
+                    // Shadow
                     ShapePath {
-                        fillColor: Theme.colorBgPrimary
                         strokeWidth: 0
-                        startX: 0; startY: 0
+                        fillGradient: RadialGradient {
+                            centerX: cornerRadius + cornerShadowModifier
+                            centerY: 0
+                            centerRadius: cornerRadius + cornerShadowModifier
 
+                            focalY: cornerRadius + cornerShadowModifier
+                            
+                            // Testing data
+                            // GradientStop { position: 0.0; color: "black" }
+                            // GradientStop { position: 0.2; color: "magenta" }
+                            // GradientStop { position: 0.4; color: "yellow" }
+                            // GradientStop { position: 0.6; color: "blue" }
+                            // GradientStop { position: 0.8; color: "green" }
+                            // GradientStop { position: 1.0; color: "red" }
+
+                            GradientStop { position: 0.0; color: shadowColor }
+                            GradientStop {
+                                position: cornerRadius / (cornerRadius + cornerShadowModifier)
+                                color: shadowColor
+                            }
+                            GradientStop { position: 1.0; color: "#00000000" }
+                        }
+
+                        startX: cornerRadius; startY: cornerRadius + cornerShadowModifier
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: 0 }
+                        PathLine { x: 0; y: 0 }
+                        PathLine { x: 0; y: cornerShadowModifier }
                         PathArc {
                             x: cornerRadius
-                            y: cornerRadius
+                            y: cornerRadius + cornerShadowModifier
                             radiusX: cornerRadius
                             radiusY: cornerRadius
                             direction: PathArc.Counterclockwise
                         }
-                        PathLine { x: 0; y: cornerRadius }
-                        PathLine { x: 0; y: 0 }
+                    }
+
+                    // Fills corner
+                    ShapePath {
+                        fillColor: Theme.colorBgPrimary
+                        strokeWidth: 0
+                        startX: 0; startY: cornerShadowModifier
+
+                        PathArc {
+                            x: cornerRadius
+                            y: cornerRadius + cornerShadowModifier
+                            radiusX: cornerRadius
+                            radiusY: cornerRadius
+                            direction: PathArc.Counterclockwise
+                        }
+                        PathLine { x: 0; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: 0; y: cornerShadowModifier }
                     }
                 }
             }
@@ -334,24 +378,65 @@ Scope {
                     right: true
                 }
 
-                implicitHeight: cornerRadius
-                implicitWidth: cornerRadius
+                implicitHeight: cornerRadius + cornerShadowModifier
+                implicitWidth: cornerRadius + cornerShadowModifier
                 color: "transparent"
 
                 Shape {
                     anchors.fill: parent
+
+                    // Shadow
+                    ShapePath {
+                        strokeWidth: 0
+                        fillGradient: RadialGradient {
+                            centerX: 0
+                            centerY: 0
+                            centerRadius: cornerRadius + cornerShadowModifier
+
+                            focalX: cornerRadius + cornerShadowModifier
+                            focalY: cornerRadius + cornerShadowModifier
+
+                            // Testing data
+                            // GradientStop { position: 0.0; color: "black" }
+                            // GradientStop { position: 0.2; color: "magenta" }
+                            // GradientStop { position: 0.4; color: "yellow" }
+                            // GradientStop { position: 0.6; color: "blue" }
+                            // GradientStop { position: 0.8; color: "green" }
+                            // GradientStop { position: 1.0; color: "red" }
+
+                            GradientStop { position: 0.0; color: shadowColor }
+                            GradientStop {
+                                position: cornerRadius / (cornerRadius + cornerShadowModifier)
+                                color: shadowColor
+                            }
+                            GradientStop { position: 1.0; color: "#00000000" }
+                        }
+
+                        startX: cornerShadowModifier; startY: cornerRadius + cornerShadowModifier
+                        PathLine { x: 0; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: 0; y: 0 }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: 0 }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerShadowModifier }
+                        PathArc {
+                            x: cornerShadowModifier
+                            y: cornerRadius + cornerShadowModifier
+                            radiusX: cornerRadius
+                            radiusY: cornerRadius
+                            direction: PathArc.Clockwise
+                        }
+                    }
                     
                     // Fills corner
                     ShapePath {
                         fillColor: Theme.colorBgPrimary
                         strokeWidth: 0
-                        startX: cornerRadius; startY: 0
+                        startX: cornerRadius + cornerShadowModifier; startY: cornerShadowModifier
 
-                        PathLine { x: cornerRadius; y: cornerRadius }
-                        PathLine { x: 0; y: cornerRadius}
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: cornerShadowModifier; y: cornerRadius + cornerShadowModifier}
                         PathArc {
-                            x: cornerRadius
-                            y: 0
+                            x: cornerRadius + cornerShadowModifier
+                            y: cornerShadowModifier
                             radiusX: cornerRadius
                             radiusY: cornerRadius
                             direction: PathArc.Counterclockwise
@@ -369,23 +454,63 @@ Scope {
                     right: true
                 }
 
-                implicitHeight: cornerRadius
-                implicitWidth: cornerRadius
+                implicitHeight: cornerRadius + cornerShadowModifier
+                implicitWidth: cornerRadius + cornerShadowModifier
                 color: "transparent"
 
                 Shape {
                     anchors.fill: parent
 
+                    // Shadow
+                    ShapePath {
+                        strokeWidth: 0
+                        fillGradient: RadialGradient {
+                            centerX: 0
+                            centerY: cornerRadius + cornerShadowModifier
+                            centerRadius: cornerRadius + cornerShadowModifier
+
+                            focalX: cornerRadius + cornerShadowModifier
+
+                            // Testing data
+                            // GradientStop { position: 0.0; color: "black" }
+                            // GradientStop { position: 0.2; color: "magenta" }
+                            // GradientStop { position: 0.4; color: "yellow" }
+                            // GradientStop { position: 0.6; color: "blue" }
+                            // GradientStop { position: 0.8; color: "green" }
+                            // GradientStop { position: 1.0; color: "red" }
+
+                            GradientStop { position: 0.0; color: shadowColor }
+                            GradientStop {
+                                position: cornerRadius / (cornerRadius + cornerShadowModifier)
+                                color: shadowColor
+                            }
+                            GradientStop { position: 1.0; color: "#00000000" }
+                        }
+
+                        startX: cornerShadowModifier; startY: 0
+                        PathLine { x: 0; y: 0 }
+                        PathLine { x: 0; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius + cornerShadowModifier }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius }
+                        PathArc {
+                            x: cornerShadowModifier
+                            y: 0
+                            radiusX: cornerRadius
+                            radiusY: cornerRadius
+                            direction: PathArc.Counterclockwise
+                        }
+                    }
+
                     // Fills corner
                     ShapePath {
                         fillColor: Theme.colorBgPrimary
                         strokeWidth: 0
-                        startX: 0; startY: 0
+                        startX: cornerShadowModifier; startY: 0
 
-                        PathLine { x: cornerRadius; y: 0 }
-                        PathLine { x: cornerRadius; y: cornerRadius}
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: 0 }
+                        PathLine { x: cornerRadius + cornerShadowModifier; y: cornerRadius}
                         PathArc {
-                            x: 0
+                            x: cornerShadowModifier
                             y: 0
                             radiusX: cornerRadius
                             radiusY: cornerRadius

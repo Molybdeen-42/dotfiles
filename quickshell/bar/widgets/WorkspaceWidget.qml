@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import Quickshell.Hyprland
+import "../../themes"
 
 // Creates a workspace menu for each screen
 Row {
@@ -22,7 +23,7 @@ Row {
             width: modelData.active ? 25 : 17
             height: 17
             radius: 10
-            color: modelData.active ? Theme.colorTextPrimary : modelData.focused ? Theme.colorBgPrimary : Theme.colorBgPrimary
+            color: modelData.active ? Theme.colorTextPrimary : Theme.colorBgPrimary
 
             border.width: 1
             border.color: Theme.colorBorderPrimary
@@ -31,6 +32,7 @@ Row {
             Behavior on width { NumberAnimation { duration: 500 } }
             Behavior on color { ColorAnimation { duration: 500 } }
 
+            // Numbers in workspace icons
             // Text {
             //     anchors.centerIn: parent
             //     text: chip.modelData.id

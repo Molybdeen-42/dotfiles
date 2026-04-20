@@ -1,5 +1,6 @@
 import Quickshell
+import "bar/styles"
 
 Scope {
-    Bar {}
+    FrameBar {}
 }

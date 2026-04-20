@@ -1,4 +1,6 @@
 import QtQuick
+import "../../themes"
+import "data"
 
 // The time in hh:mm
 Text {

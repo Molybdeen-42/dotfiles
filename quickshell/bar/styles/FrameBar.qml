@@ -2,6 +2,9 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import QtQuick.Shapes
+import Quickshell.Hyprland
+import "../widgets"
+import "../../themes"
 
 // The standard bar that shows a border around the screen.
 Scope {
@@ -16,10 +19,11 @@ Scope {
             readonly property int edgeThickness: 5
             readonly property int cornerRadius: 10
             readonly property int borderThickness: 1
+
             readonly property int shadowThickness: 4
             readonly property int cornerShadowModifier: 13
             readonly property color shadowColor: Theme.colorBorderPrimary
-            readonly property color shadowEdge: "#00000000"
+            readonly property color shadowEdge: "transparent"
 
             // Top bar
             PanelWindow {

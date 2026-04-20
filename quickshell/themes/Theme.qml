@@ -11,7 +11,7 @@ QtObject {
     readonly property int fontSizeNormal: 14
     readonly property int fontSizeLarge:  18
 
-    readonly property color colorBgPrimary: "#a9b0b7"
+    readonly property color colorBgPrimary: "#cccbcc"
     readonly property color colorBorderPrimary: "#3b4352"
     readonly property color colorTextPrimary: "#21242a"
 }

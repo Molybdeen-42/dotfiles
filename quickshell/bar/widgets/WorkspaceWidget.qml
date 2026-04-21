@@ -23,10 +23,10 @@ Row {
             width: modelData.active ? 25 : 17
             height: 17
             radius: 10
-            color: modelData.active ? Theme.colorTextPrimary : Theme.colorBgPrimary
+            color: modelData.active ? Theme.border : Theme.bg
 
             border.width: 1
-            border.color: Theme.colorBorderPrimary
+            border.color: Theme.border
 
             // Time between width and color adjustment on swapping workspace
             Behavior on width { NumberAnimation { duration: 500 } }
@@ -36,7 +36,7 @@ Row {
             // Text {
             //     anchors.centerIn: parent
             //     text: chip.modelData.id
-            //     color: chip.modelData.active ? Theme.colorBgPrimary : Theme.colorTextPrimary
+            //     color: chip.modelData.active ? Theme.bg : Theme.text
             //     font.family: Theme.fontFamilyMono
             //     font.pixelSize: Theme.fontSizeSmall
             //     font.bold: chip.modelData.active

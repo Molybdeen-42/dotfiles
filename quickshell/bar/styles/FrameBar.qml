@@ -22,7 +22,7 @@ Scope {
 
             readonly property int shadowThickness: 4
             readonly property int cornerShadowModifier: 13
-            readonly property color shadowColor: Theme.colorBorderPrimary
+            readonly property color shadowColor: Theme.border
             readonly property color shadowEdge: "transparent"
 
             // Top bar
@@ -50,7 +50,18 @@ Scope {
                     }
 
                     height: topThickness
-                    color: Theme.colorBgPrimary
+                    color: Theme.bg
+
+                    // Left widget row
+                    Row {
+                        anchors {
+                            left: parent.left
+                            verticalCenter: parent.verticalCenter
+                            leftMargin: 10
+                        }
+
+                        spacing: 20
+                    }
 
                     // Center widget row
                     Row {
@@ -65,6 +76,21 @@ Scope {
 
                         // Clock hh:mm
                         ClockWidget {
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    // Right widget row
+                    Row {
+                        spacing: 20
+
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                            rightMargin: 10
+                        }
+
+                        BatteryWidget {
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -112,7 +138,7 @@ Scope {
                     }
 
                     width: edgeThickness
-                    color: Theme.colorBgPrimary
+                    color: Theme.bg
                 }
 
                 // Bar
@@ -158,7 +184,7 @@ Scope {
                     }
 
                     height: edgeThickness
-                    color: Theme.colorBgPrimary
+                    color: Theme.bg
                 }
 
                 // Shadow
@@ -203,7 +229,7 @@ Scope {
                     }
 
                     width: edgeThickness
-                    color: Theme.colorBgPrimary
+                    color: Theme.bg
                 }
 
                 // Shadow
@@ -281,7 +307,7 @@ Scope {
 
                     // Fills corner
                     ShapePath {
-                        fillColor: Theme.colorBgPrimary
+                        fillColor: Theme.bg
                         strokeWidth: 0
                         startX: 0; startY: 0
 
@@ -356,7 +382,7 @@ Scope {
 
                     // Fills corner
                     ShapePath {
-                        fillColor: Theme.colorBgPrimary
+                        fillColor: Theme.bg
                         strokeWidth: 0
                         startX: 0; startY: cornerShadowModifier
 
@@ -432,7 +458,7 @@ Scope {
                     
                     // Fills corner
                     ShapePath {
-                        fillColor: Theme.colorBgPrimary
+                        fillColor: Theme.bg
                         strokeWidth: 0
                         startX: cornerRadius + cornerShadowModifier; startY: cornerShadowModifier
 
@@ -507,7 +533,7 @@ Scope {
 
                     // Fills corner
                     ShapePath {
-                        fillColor: Theme.colorBgPrimary
+                        fillColor: Theme.bg
                         strokeWidth: 0
                         startX: cornerShadowModifier; startY: 0
 

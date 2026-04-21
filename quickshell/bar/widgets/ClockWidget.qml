@@ -6,6 +6,6 @@ import "data"
 Text {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSizeSmall
-    color: Theme.colorTextPrimary
+    color: Theme.text
     text: Time.time
 }

@@ -3,7 +3,6 @@ pragma Singleton
 import QtQuick
 
 // Main dark theme file
-
 QtObject {
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
     readonly property string fontFamilyMono: "JetBrainsMono Nerd Font Mono"

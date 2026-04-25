@@ -42,6 +42,12 @@ Scope {
             readonly property int itemSpacing: 8
             readonly property int iconSize: 12
 
+            property var wsIcons: ({
+                1: "\uf120",   // terminal
+                2: "\uf121",   // code
+                3: "\uf001",   // music
+            })
+
             PanelWindow {
                 screen: screenBorder.modelData
                 color: "transparent"
@@ -126,6 +132,22 @@ Scope {
                                         direction: PathArc.Counterclockwise
                                     }
                                 }
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: wsIcons[modelData.id] 
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeNormal
+                                    color: isActive ? Theme.bg : Theme.widget
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        Hyprland.dispatch("workspace " + modelData.id)
+                                    }
+                                }
                             }
                         }
                     }
@@ -195,6 +217,20 @@ Scope {
                             anchors.centerIn: parent
                             spacing: 16
                             height: clockWidget.height
+
+                            Text {
+                                property string networkIcon: {
+                                    if (Network.networkType === "ethernet") return "󰈀";
+                                    if (Network.networkType === "wifi") return "󰖩";
+                                    return "󰖪";
+                                }
+
+                                text: networkIcon
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontSizeNormal
+                                color: cpuTemp.cpuColor
+                                leftPadding: 2
+                            }
 
                             Item {
                                 id: cpuTemp

@@ -15,6 +15,7 @@ import "../../themes"
 // The standard minimalistic bar
 Scope {
     property bool isExpanded: true
+    readonly property string networkType: Network.networkType
 
     Variants {
         model: Quickshell.screens
@@ -23,12 +24,12 @@ Scope {
             id: screenBorder
         
             required property var modelData
-            readonly property int topThickness: 30
+            readonly property int topThickness: 35
             readonly property int edgeThickness: 6
             readonly property int radius: 5
             readonly property int borderThickness: 1
             readonly property int slantDistance: 6
-            readonly property int interTabDistance: 20
+            readonly property int interTabDistance: 25
 
             readonly property int shadowThickness: 4
             readonly property int cornerShadowModifier: 13
@@ -38,15 +39,55 @@ Scope {
             readonly property int wsWidth: 24
             readonly property int wsWidthExtend: 6 // Extends the active workspace in the workspace widget. Must be an even number!
             
-            readonly property int chevronWidth: 14
+            readonly property int chevronWidth: 10
             readonly property int itemSpacing: 8
-            readonly property int iconSize: 12
+            readonly property int iconSize: 18
 
-            property var wsIcons: ({
-                1: "\uf120",   // terminal
-                2: "\uf121",   // code
-                3: "\uf001",   // music
-            })
+            property int _topRefresh: 0
+
+            function iconForClass(className) {
+                var map = {
+                    "kitty": "\uf120",
+                    "codium": "\uf121",
+                    "firefox": "\uf269",
+                    "discord": "\uf392",
+                    "com.anthropic.claude-desktop": "\u{f1719}",
+                    "osu!": "\u{f063c}",
+                    "proton mail": "\uf42f",
+                    "electron": "\uf456",
+                    "virt-manager": "\ueb7b",
+                }
+                if (!className) return "\u{f0614}"
+                return map[className.toLowerCase()] || "\u{f0614}"
+            }
+
+            Timer {
+                id: refreshTimer
+                interval: 1500
+                repeat: false
+                onTriggered: {
+                    Hyprland.refreshToplevels()
+                    _topRefresh++
+                }
+            }
+
+            Timer {
+                id: secondRefreshTimer
+                interval: 3000
+                repeat: false
+                onTriggered: {
+                    Hyprland.refreshToplevels()
+                    _topRefresh++
+                }
+            }
+
+            Connections {
+                target: Hyprland.focusedMonitor
+                function onActiveWorkspaceChanged() {
+                    refreshTimer.restart()
+                    secondRefreshTimer.restart()
+                }
+            }  
 
             PanelWindow {
                 screen: screenBorder.modelData
@@ -87,6 +128,31 @@ Scope {
                                 property bool isFirst: index === 0
                                 property bool isLast: index === wsRepeater.count - 1
                                 property bool isActive: modelData === Hyprland.focusedMonitor.activeWorkspace
+
+                                property string currentIcon: {
+                                    var _dep = screenBorder._topRefresh
+
+                                    var tops = Array.from(modelData.toplevels.values)
+                                    if (tops.length === 0) return ""
+
+                                    for (var i = 0; i < tops.length; i++) {
+                                        if (!tops[i]) continue
+                                        if (tops[i].activated) {
+                                            var ipc = tops[i].lastIpcObject
+                                            return ipc ? iconForClass(ipc["class"]) : ""
+                                        }
+                                    }
+
+                                    var last = tops[tops.length - 1]
+                                    return (last && last.lastIpcObject) ? iconForClass(last.lastIpcObject["class"]) : ""
+                                }
+
+                                onCurrentIconChanged: {
+                                    if (currentIcon === "\u{f0614}") {
+                                        refreshTimer.restart()
+                                        secondRefreshTimer.restart()
+                                    }
+                                }
 
                                 width: wsWidth + (isActive ? wsWidthExtend : 0) + ((isFirst || isLast) ? radius : slantDistance) + slantDistance
                                 implicitHeight: clockWidget.implicitHeight
@@ -135,9 +201,9 @@ Scope {
 
                                 Text {
                                     anchors.centerIn: parent
-                                    text: wsIcons[modelData.id] 
+                                    text: currentIcon 
                                     font.family: Theme.fontFamily
-                                    font.pixelSize: Theme.fontSizeNormal
+                                    font.pixelSize: Theme.fontSizeLarge
                                     color: isActive ? Theme.bg : Theme.widget
                                 }
 
@@ -220,15 +286,16 @@ Scope {
 
                             Text {
                                 property string networkIcon: {
-                                    if (Network.networkType === "ethernet") return "󰈀";
-                                    if (Network.networkType === "wifi") return "󰖩";
+                                    if (networkType === "ethernet") return "󰈀";
+                                    if (networkType === "wifi") return "󰖩";
                                     return "󰖪";
                                 }
 
+                                width: 16
                                 text: networkIcon
                                 font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontSizeNormal
-                                color: cpuTemp.cpuColor
+                                font.pixelSize: Theme.fontSizeLarge
+                                color: "#e8e4e0"
                                 leftPadding: 2
                             }
 
@@ -253,14 +320,14 @@ Scope {
                                     Text {
                                         text: "\uf4bc"
                                         font.family: Theme.fontFamily
-                                        font.pixelSize: Theme.fontSizeNormal
+                                        font.pixelSize: Theme.fontSizeLarge
                                         color: cpuTemp.cpuColor
                                     }
 
                                     Text {
                                         text: Math.round(cpuTemp.temperature) + "°C"
                                         font.family: Theme.fontFamily
-                                        font.pixelSize: Theme.fontSizeNormal
+                                        font.pixelSize: Theme.fontSizeLarge
                                         color: cpuTemp.cpuColor
                                     }
                                 }
@@ -323,14 +390,14 @@ Scope {
                                     Text {
                                         text: battery.batteryIcon
                                         color: battery.iconColor
-                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.pixelSize: Theme.fontSizeLarge - 2
                                         font.family: Theme.fontFamily
                                     }
 
                                     Text {
                                         text: battery.power ? Math.round(battery.power.percentage * 100) + "%" : "N/A"
                                         color: battery.iconColor
-                                        font.pixelSize: Theme.fontSizeNormal
+                                        font.pixelSize: Theme.fontSizeLarge
                                     }
                                 }
                             }
@@ -381,7 +448,7 @@ Scope {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             left: widgetShape.right
-                            leftMargin: interTabDistance / 2
+                            leftMargin: interTabDistance
                         }
 
                         Behavior on implicitWidth {
@@ -428,7 +495,7 @@ Scope {
 
                         Shape {
                             id: chevron
-                            width: chevronWidth
+                            width: radius * 2
                             height: tray.height
 
                             anchors {
@@ -442,29 +509,19 @@ Scope {
                                 strokeWidth: borderThickness
 
                                 startX: radius
-                                startY: tray.height
-
-                                PathLine {
-                                    x: chevron.width - radius
-                                    y: tray.height
-                                }
+                                startY: 0
 
                                 PathArc {
-                                    x: chevron.width - radius
-                                    y: 0
+                                    x: radius
+                                    y: tray.height
                                     radiusX: radius
                                     radiusY: radius
                                     direction: PathArc.Counterclockwise
                                 }
 
-                                PathLine {
-                                    x: radius
-                                    y: 0
-                                }
-
                                 PathArc {
                                     x: radius
-                                    y: tray.height
+                                    y: 0
                                     radiusX: radius
                                     radiusY: radius
                                     direction: PathArc.Counterclockwise
@@ -474,10 +531,10 @@ Scope {
                             Text {
                                 text: "❯"
                                 font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontSizeNormal
+                                font.pixelSize: Theme.fontSizeLarge
                                 anchors.centerIn: parent
                                 color: Theme.widget
-                                rotation: isExpanded ? 0 : 90
+                                rotation: isExpanded ? 0 : 180
 
                                 Behavior on rotation {
                                     NumberAnimation {
@@ -510,7 +567,7 @@ Scope {
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 left: chevron.right
-                                leftMargin: slantDistance
+                                leftMargin: slantDistance * 2
                             }
 
                             Repeater {

@@ -8,8 +8,8 @@ QtObject {
     readonly property string fontFamilyMono: "JetBrainsMono Nerd Font Mono"
 
     readonly property int fontSizeSmall:  10
-    readonly property int fontSizeNormal: 12
-    readonly property int fontSizeLarge:  14
+    readonly property int fontSizeNormal: 14
+    readonly property int fontSizeLarge:  16
 
     readonly property color bg:          "#0e1219"
     readonly property color surface:     "#171d27"

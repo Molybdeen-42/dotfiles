@@ -6,7 +6,7 @@ import "data"
 Text {
     id: clock
     font.family: Theme.fontFamily
-    font.pixelSize: Theme.fontSizeNormal
+    font.pixelSize: Theme.fontSizeLarge
     color: Theme.widget
     text: Time.time
 }

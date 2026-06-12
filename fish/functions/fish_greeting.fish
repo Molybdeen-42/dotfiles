@@ -6,7 +6,7 @@ function fish_greeting
     set -l b (set_color 1C1C1C)  # Black outline
     set -l n (set_color normal)
 
-    echo '
+    echo "
                                                                                                  ,, 
                                                                                              ,,====,
                                                                                           ,,,,‐====,
@@ -50,12 +50,20 @@ function fish_greeting
             ꞉-,                  ,---,                                                              
             ,                     ,--,                                                              
                                    ,,                                                           
-' | sed \
+" | sed \
         -e "s/[‐=]/$y=$n/g" \
         -e "s/≈/$w≈$n/g" \
         -e "s/[‑≊]/$i&$n/g" \
         -e "s/[,꞉]/$b&$n/g" \
         -e "s/[.:\-]/$t&$n/g"
+
+    echo ""
+    echo -n "Welcome back "
+    set_color --bold green
+    echo -n $USER
+    set_color normal
+    echo "!"
+    echo "This is your personal assistant, Shellsparce." 
 end
 
 #                                                                                                  ,, 

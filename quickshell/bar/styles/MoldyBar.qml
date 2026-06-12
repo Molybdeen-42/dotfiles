@@ -11,6 +11,7 @@ import QtQuick.Controls
 import "../widgets"
 import "../widgets/data"
 import "../../themes"
+import "../../popout"
 
 // The standard minimalistic bar
 Scope {

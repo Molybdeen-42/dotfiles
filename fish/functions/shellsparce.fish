@@ -47,6 +47,16 @@ function shellsparce --description "Your personal shell assistant!"
         end
     end
 
+    if test "$option" = "code"
+        kitty --session code_grid.conf --start-as=fullscreen > /dev/null 2&>1; disown
+	return
+    end
+
+    if test "$option" = "split"
+        kitty --session split_grid.conf --start-as=fullscreen > /dev/null 2&>1; disown
+	return
+    end
+
     echo "Something went wrong and I was sadly not able to help."
     echo "Please consult `shellsparce help` for all my functionalities!"
     echo "~Shellsparce"

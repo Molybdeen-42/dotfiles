@@ -27,22 +27,22 @@ hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd(applauncher))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+hl.bind(mainMod .. " + o", hl.dsp.exec_cmd("loginctl lock-session"))
 
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag())
 
-hl.bind(swapMod .. " + left", hl.dsp.window.swap({ direction = "l" }))
-hl.bind(swapMod .. " + right", hl.dsp.window.swap({ direction = "r" }))
-hl.bind(swapMod .. " + down", hl.dsp.window.swap({ direction = "d" }))
-hl.bind(swapMod .. " + up", hl.dsp.window.swap({ direction = "u" }))
+hl.bind(swapMod .. " + h", hl.dsp.window.swap({ direction = "l" }))
+hl.bind(swapMod .. " + l", hl.dsp.window.swap({ direction = "r" }))
+hl.bind(swapMod .. " + j", hl.dsp.window.swap({ direction = "d" }))
+hl.bind(swapMod .. " + k", hl.dsp.window.swap({ direction = "u" }))
 
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 
-hl.bind(screenChangeMod .. " + left", hl.dsp.window.move({ monitor = "l" }))
-hl.bind(screenChangeMod .. " + right", hl.dsp.window.move({ monitor = "r" }))
+hl.bind(screenChangeMod .. " + h", hl.dsp.window.move({ monitor = "l" }))
+hl.bind(screenChangeMod .. " + l", hl.dsp.window.move({ monitor = "r" }))
 
 hl.bind("F11", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 
@@ -57,10 +57,10 @@ hl.bind(mainMod .. " + 8", hl.dsp.focus({ workspace = 8 }))
 hl.bind(mainMod .. " + 9", hl.dsp.focus({ workspace = 9 }))
 hl.bind(mainMod .. " + 0", hl.dsp.focus({ workspace = 10 }))
 
-hl.bind(workspaceMod .. " + left", hl.dsp.focus({ workspace = "m-1" }))
-hl.bind(workspaceMod .. " + right", hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(workspaceMod .. " + h", hl.dsp.focus({ workspace = "m-1" }))
+hl.bind(workspaceMod .. " + l", hl.dsp.focus({ workspace = "m+1" }))
 
-hl.bind(workspaceMod .. " + W", hl.dsp.exec_cmd("bash -c 'NEW_WS=$(hyprctl workspaces -j | jq \"[.[].id] | max + 1\"); hyprctl dispatch workspace \"$NEW_WS\"; hyprctl keyword workspace \"$NEW_WS, persistent:true\"'"))
+hl.bind(workspaceMod .. " + N", hl.dsp.workspace.toggle_special("scratchpad"))
 hl.bind(workspaceMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"))
 
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.global("quickshell:togglePopoutSliderMenu"))
